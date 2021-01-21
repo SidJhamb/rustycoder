@@ -1,0 +1,92 @@
+{% extends "navbar.html" %}
+{% block herobody %}
+
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="column is-4 is-offset-4">
+            <h3 class="title">Login</h3>
+            <div class="box">
+              <form>
+                <div class="field">
+                  <div class="control">
+                    <input id="email" class="input is-medium is-info is-inverted is-outlined" type="email" placeholder="Your Email" autofocus="">
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <input id="password" class="input is-medium is-info is-inverted is-outlined" type="password" placeholder="Your Password">
+                  </div>
+                </div>
+                <button id="login" class="button is-block is-success is-outlined is-large is-fullwidth">Login</button>
+              </form>
+            </div>
+            <p class="has-text-grey">
+              <a href="../">Sign Up</a> &nbsp;·&nbsp;
+              <a href="../">Forgot Password</a> &nbsp;·&nbsp;
+              <a href="../">Need Help?</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div id="errormsg" class="notification is-danger">
+            <button id="notificationclose" class="delete"></button>
+          
+          </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+      </div>
+
+      <script type="text/javascript">
+
+        $(".modal-background, .modal-close").click(function() {
+           $(".modal").removeClass("is-active");
+        });
+        $("#notificationclose").click(function() {
+           $(".modal").removeClass("is-active");
+        });
+
+        if('{{mode}}'=='clear'){
+          Cookies.remove('token', { path: '/' });
+        }
+        
+        $('#login').click(function(ev){
+          ev.preventDefault();
+          var data={};
+          data['email']=$('#email').val().trim();
+          data['password']=sha256($('#password').val().trim());
+          
+          console.log(data);
+
+          $.ajax({
+              method:'POST',
+              url:'api/login',
+              dataType: "json",
+              contentType: "application/json",
+              data:JSON.stringify(data),
+              success: function(response){
+                console.log(response);
+
+                if (response.status == 'true'){
+                  if(response.is_admin=='True'){
+                    location.pathname='/admin';
+                  }else{
+                    location.pathname='/problems';
+                  }
+                }else{
+                  $('#errormsg').text(response.message);
+                  $(".modal").addClass("is-active");
+                }
+              },
+              error: function(response){
+                // console.log(response);
+              },
+          });
+
+
+        });
+      </script>
+
+{% endblock %}

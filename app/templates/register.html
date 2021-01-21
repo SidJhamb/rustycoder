@@ -1,0 +1,89 @@
+{% extends "navbar.html" %}
+{% block herobody %}
+      <div class="hero-body">
+        <div class="container ">
+          <div class="column is-4 is-offset-4">
+            <h3 class="title">Register</h3>
+            <div class="box">
+              <form>
+                <div class="field">
+                  <label class="label">Name</label>
+                  <p class="control has-icons-left has-icons-right">
+                    <input id="name" class="input is-medium" type="text" placeholder="Name">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-user"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <label class="label">Email</label>
+                  <p class="control has-icons-left has-icons-right">
+                    <input id="email" class="input is-medium" type="text" placeholder="Email">
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-envelope"></i>
+                    </span>
+                   <!--  <span class="icon is-small is-right">
+                      <i class="fa fa-warning"></i>
+                    </span> -->
+                  </p>
+                 <!--  <p class="help is-danger">This email is invalid</p> -->
+                </div>
+                <div class="field">
+                  <label class="label">Password</label>
+                  <p class="control">
+                    <input id="password" class="input is-medium" type="Password" placeholder="Password">
+                    
+                    <!-- <span class="icon is-small is-right">
+                      <i class="fa fa-check"></i>
+                    </span> -->
+                  </p>
+                  <!-- <p class="help is-success">This username is available</p> -->
+                </div>
+                <br>
+                <button id="login" class="button is-block is-success is-outlined is-large is-fullwidth">Register</button>
+              </form>
+            </div>
+            <p class="has-text-grey">
+              <a href="/login">Sign In</a> &nbsp;·&nbsp;
+              <!-- <a href="../">Forgot Password</a> &nbsp;·&nbsp; -->
+              <!-- <a href="../">Need Help?</a> -->
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+        $('#login').click(function(ev){
+          ev.preventDefault();
+          var data={};
+          data['name']=$('#name').val().trim();
+          data['email']=$('#email').val().trim();
+          data['password']=sha256($('#password').val().trim());
+
+          console.log(data);
+
+          $.ajax({
+              method:'POST',
+              url:'api/register',
+              dataType: "json",
+              contentType: "application/json",
+              data:JSON.stringify(data),
+              success: function(response){
+                console.log(response);
+
+                if (response.status == 'true'){
+                  location.pathname='/login'
+                }
+              },
+              error: function(response){
+                // console.log(response);
+              },
+          });
+
+
+        });
+
+      </script>
+    
+
+{% endblock %}

@@ -1,0 +1,31 @@
+=begin
+# Read input from stdin and provide input before running code
+ 
+print "Please enter your name: "
+name = gets.chomp
+print "Hi #{name}\n"
+=end
+ 
+num_cases = gets.to_i
+verdict = ""
+0.upto(num_cases - 1) do |i|
+	frnds, amount = gets.chomp.split.map(&:to_i)
+	costs = []
+	sum = 0
+	v = false
+	0.upto(frnds - 1) do 
+		c = gets.to_i
+		next if v
+		sum += c
+		while sum > amount
+			sum -= costs.empty? ? c : costs.shift
+		end
+		if sum == amount
+			v = true
+		elsif sum < amount
+			costs << c
+		end
+	end
+	verdict += v ? "YES\n" : "NO\n"
+end
+puts verdict

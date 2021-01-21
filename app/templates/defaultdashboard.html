@@ -1,0 +1,356 @@
+{% extends "litenav.html" %} {% block herobody %}
+<br>
+<div class="tabs is-centered is-medium is-toggle" id="tab_header">
+    <ul>
+        <li class="item is-active is-success" data-option="1">
+            <a style="background-color: #e74c3c;
+                    border-color: #e74c3c;">
+                    <span class="icon is-small"><i class="fas fa-file"></i></span>
+                    <span>Problem</span>
+                </a>
+        </li>
+        <li class="item" data-option="2">
+            <a><span class="icon is-small"><i class="fas fa-code"></i></span>
+                <span>Code</span></a>
+        </li>
+        <li class="item" data-option="3">
+            <a><span class="icon is-small"><i class="fas fa-history"></i></span>
+                <span>Submissions</span></a>
+        </li>
+    </ul>
+</div>
+<div class="" id="tab_container">
+    <div class="container is-fluid">
+        <div class="content container_item is-active is-medium" data-item="1">
+            <h1>Hello</h1>
+            <hr>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam perferendis, consequuntur facere molestiae explicabo reprehenderit vitae. Deleniti neque dolore nobis cum eius nulla porro quos sint delectus sed amet adipisci quaerat laudantium est distinctio dolor, at repudiandae similique doloribus rem. Obcaecati recusandae fugiat itaque nihil vel, mollitia modi, repellat, voluptatibus, repellendus nostrum nisi veritatis. Odit magnam quia magni quibusdam molestiae ut.</p>
+        </div>
+    </div>
+    <div class="container_item" data-item="2">
+        <section class="section">
+            <div class="tile is-ancestor">
+                <div class="tile is-vertical is-6">
+                    <div class="tile is-parent is-vertical">
+                        <!-- <article class="tile is-child notification is-info">
+                                <p class="title">Middle tile</p>
+                                <p class="subtitle">With an image</p>
+                            </article> -->
+                        <div id="lang-dropdown" class="dropdown" onload="setDefaultLang()">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    <span id="current_lang">Language</span>
+                                    <span class="icon is-small">
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <a name="c_cpp" class="dropdown-item is-active" onclick="setLanguage(this)">C++</a>
+                                    <a name="python" class="dropdown-item" onclick="setLanguage(this)">Python</a>
+                                    <a name="c_cpp" class="dropdown-item" onclick="setLanguage(this)">C</a>
+                                    <a name="java" class="dropdown-item" onclick="setLanguage(this)">Java</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tile is-child" id="editor">
+a = input()
+b = input()
+print(a + b)
+                        </div>
+                    </div>
+                    <div class="box has-text-centered" style="background-color: #1f2424 ">
+                        <button id="run" class="button is-info is-outlined">Run</button>
+                        <span style="margin-left:100px"></span>
+                        <button id="submit" class="button is-success is-outlined">Submit</button>
+                    </div>
+                </div>
+                <div class="tile is-parent is-vertical">
+                    <article class="tile is-child message is-medium is-light-grey">
+                        <div id="stdin-header" class="message-header"> Stdin
+                            <!-- <button class="delete"> </button> -->
+                        </div>
+                        <div id="stdin" class="message-body" style="display: none;">
+                            <div class="field">
+                                <!-- <label class="label">Message</label> -->
+                                <p class="control">
+                                    <textarea id="stdinInput" class="textarea" placeholder="Textarea"></textarea>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="tile is-child notification" style="background-color: #1f2424">
+                        <div class="content" style="height: 400px">
+                            <p class="title has-text-white-ter">Test Cases</p>
+                            <hr>
+                            <progress class="progress is-success" max="100" value="15"> 15% </progress>
+                            <!-- <div class="message">
+                                <div class="message-header"> Test Case 1</div>
+                                <div  class="message-body" style="">
+                                    input
+                                </div>
+                            </div> -->
+                            <!-- <span class="tag is-primary is-medium"> Medium </span> -->
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-outlined is-success" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                        <span>Test Case 1</span>
+                                        <span class="icon is-small">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                    <div class="dropdown-content">
+                                        <div class="dropdown-item">
+                                            <p>Test Case Input 1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button is-outlined is-danger" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                        <span>Test Case 2</span>
+                                        <span class="icon is-small">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                    </button>
+                                </div>
+                                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                    <div class="dropdown-content">
+                                        <div class="dropdown-item">
+                                            <p>Test Case Input 1</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    <!--  <article class="tile is-child message is-medium is-light-grey" style="background-color: #1f2424">
+                        <div class="message-header"> Output
+                        </div><hr>
+                        <div id="stdout" class="message-body" style=""> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus mi, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida </div>
+                    </article> -->
+                    <div class="tile is-child is-medium message">
+                        <div class=" message-header"> Output
+                        </div>
+                        <div id="stdout" class="message-body" style=""> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque risus mi, tempus quis placerat ut, porta nec nulla. Vestibulum rhoncus ac ex sit amet fringilla. Nullam gravida </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container_item" data-item="3">
+        <div class="container is-fluid">
+            <section class="section">
+                <div class="columns is-centered">
+                    <table class="table is-striped is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <abbr title="No">No</abbr>
+                                </th>
+                                <th>Team</th>
+                                <th>
+                                    <abbr title="User">User</abbr>
+                                </th>
+                                <th>
+                                    <abbr title="Language">W</abbr>
+                                </th>
+                                <th>
+                                    <abbr title="Date">Date</abbr>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
+                                </td>
+                                <td>38</td>
+                                <td>23</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <th>2</th>
+                                <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
+                                <td>38</td>
+                                <td>20</td>
+                                <td>11</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <!-- Beatae neque magni recusandae tempore ad nobis magnam. Explicabo, a! Molestiae aperiam necessitatibus suscipit mollitia dolorum quas possimus ipsa, nemo quod ipsam veniam, incidunt maxime quos iusto reiciendis. Eligendi cupiditate asperiores fuga dolore. Reiciendis eligendi eaque autem, aperiam delectus nesciunt enim similique ut laborum blanditiis tempora quidem, nobis unde incidunt alias atque dignissimos recusandae quibusdam cum dolor voluptas corrupti! -->
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static',filename='ace-builds/src/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+<script>
+
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/c_cpp");
+document.getElementById('editor').style.fontSize = '17px';
+editor.setHighlightActiveLine(false);
+editor.setOption('showPrintMargin', false);
+
+function setLanguage(tag) {
+    current_lang = tag.innerHTML.trim()
+    console.log(current_lang)
+    $('#lang-dropdown').find('.dropdown-item').each(function() {
+        $(this).removeClass('is-active')
+        // console.log(this.innerText);
+        if (this.innerText == current_lang) {
+            $(this).addClass('is-active');
+            $('#current_lang').text(current_lang);
+            mode=$(this).attr('name');
+            // console.log(mode);
+            editor.session.setMode("ace/mode/"+mode);
+        }
+    });
+}
+
+function setDefaultLang() {
+    $('#lang-dropdown').find('.dropdown-item').each(function() {
+        if ($(this).hasClass('is-active')) {
+            console.log($(this).text());
+            console.log('set active');
+            $('#current_lang').text($(this).text().trim());
+        } else {
+            // console.log(' setDefaultLang error');
+        }
+    });
+}
+
+$('#lang-dropdown').removeClass('is-active');
+var dropdown = document.querySelector('.dropdown');
+dropdown.addEventListener('click', function(event) {
+    event.stopPropagation();
+    dropdown.classList.toggle('is-active');
+    // console.log(dropdown.classList)
+});
+
+
+jobId='';
+
+brokerUrl="http://192.168.43.59:5000/"
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+$('#run').click(function(ev){
+
+    $('#run').addClass('is-loading');
+    $('#submit').addClass('is-disabled');
+
+    var data={};
+    data['code']=btoa(editor.getSession());
+    data['lang']=$('#current_lang').text().trim();
+    data['stdin']=btoa($("#stdinInput").val().trim());
+    console.log(data);
+
+    $.ajax({
+        method:'POST',
+        url:brokerUrl + 'run',
+        dataType: "json",
+        contentType: "application/json",
+        data:JSON.stringify(data),
+        beforeSend : function(xhr) {
+            // xhr.setRequestHeader("Authorization", 'JWT '+window.localStorage.getItem('token'));
+            // xhr.setRequestHeader("X-CSRFToken",getCookie('csrftoken'));
+        },
+        success:function(response){
+            console.log(response)
+            if (response.jobStatus){
+                jobId=response.taskId;
+                console.log('Job created, id: '+jobId);
+                $.ajax({
+                    method:'GET',
+                    url:brokerUrl+'runStatus/'+jobId,
+                    tryCount : 0,
+                    retryLimit : 3,
+                    beforeSend: function(xhr){
+
+                    },
+                    success: function(response){
+                        var that=this;
+                        setTimeout(function() {
+
+                            console.log('Job Status inquiry successfull retry: '+that.tryCount);
+                            if (response.status != 'SUCCESS'){
+
+                                that.tryCount++;
+                                if (that.tryCount <= that.retryLimit){
+                                    $.ajax(that);
+                                    return;
+                                }
+                                return;
+
+                            }else{
+                                $('#stdout').html(response.output);
+                                $('#run').removeClass('is-loading');
+                                $('#submit').removeClass('is-disabled');
+                                console.log('removing job id');
+                                jobId='';
+                                
+                            }
+
+
+                        }, 5000);
+                        
+                    },
+                    error: function(response){
+                        console.log('Job Status inquiry failed retry: '+this.tryCount);
+                        this.tryCount++;
+                            if (this.tryCount <= this.retryLimit){
+                                $.ajax(this);
+                                return;
+                            }
+                            $('#run').removeClass('is-loading');
+                            $('#submit').removeClass('is-disabled');
+                            console.log('removing job id');
+                            jobId='';
+                            return;
+                    }
+                }).then(function(){
+                    console.log('Ajax status call finished');
+                    $('#run').removeClass('is-loading');
+                    $('#submit').removeClass('is-disabled');
+                    console.log('removing job id');
+                    jobId='';
+                });
+            }
+            else{
+                console.log('Job submit error msg from server');
+                console.log(response.msg);
+                $('#run').removeClass('is-loading');
+                $('#submit').removeClass('is-disabled')
+            }
+            
+        },
+        error: function(xhr, textStatus, errorThrown){
+            console.log('job submit timeout');
+            $('#run').removeClass('is-loading');
+            $('#submit').removeClass('is-disabled');
+        }
+            
+    });
+
+    // console.log('ajax call finished');
+    // $('#run').removeClass('is-loading');
+    // $('#submit').removeClass('is-disabled');
+    
+
+});
+
+
+
+
+</script>
+{% endblock %}

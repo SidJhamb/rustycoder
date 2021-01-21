@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static',filename='img/favicon.ico')}}">
+    <script defer src="/static/js/all.js" ></script>
+    <link rel="stylesheet" href="/static/css/bulmaswatch.min.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.timeago.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='js/js.cookie.min.js')}}"></script>
+    <script defer type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all "navbar-burger" elements
+        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+            // Add a click event on each of them
+            $navbarBurgers.forEach(function($el) {
+                $el.addEventListener('click', function() {
+                    // Get the target from the "data-target" attribute
+                    var target = $el.dataset.target;
+                    var $target = document.getElementById(target);
+                    // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+                    $el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        }
+    });
+    
+
+    function removeCookie(){
+    Cookies.remove('token', { path: '/' });
+    location.pathname='/';
+    }
+
+    </script>
+
+    <style type="text/css">
+    #tab_container .container_item {
+        display: none;
+    }
+
+    #tab_container .container_item.is-active {
+        display: block;
+    }
+
+    article.post {
+        margin: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #E6EAEE;
+    }
+    </style>
+</head>
+
+<body>
+    <section class="hero is-dark">
+        <!-- Hero head: will stick at the top -->
+        <div class="hero-head">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a href="/" class="navbar-item">
+              <img src="{{url_for('static',filename='img/logo.png')}}" alt="Logo">
+            </a>
+                    <span class="navbar-burger burger" data-target="navMenu">
+              <span></span>
+                    <span></span>
+                    <span></span>
+                    </span>
+                </div>
+                <div class="navbar-menu" id="navMenu">
+                    <div class="navbar-end">
+                        <a class="navbar-item" href="{{url_for('problems')}}">
+                Problems
+              </a>
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <a class="navbar-link" href="#">
+                  User
+                </a>
+                            <div class="navbar-dropdown is-right">
+                                <a class="navbar-item" href="#">
+                    Account
+                  </a>
+                                <a id="logout" class="navbar-item" href="/" onclick="removeCookie()">
+                    Logout
+                  </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <section>
+        {% block herobody %}{% endblock %}
+    </section>
+</body>
+
+</html>

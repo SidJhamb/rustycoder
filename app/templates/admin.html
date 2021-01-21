@@ -1,0 +1,105 @@
+{% extends "adminnav.html" %} {% block herobody %}
+<section class="section">
+    <div class="container is-fluid">
+        <div class="content">
+            <h2 class='title is-2'>Insert Problem</h1>
+        </div>
+        
+        <form>
+        <div class="field">
+          <div class="control">
+            <input id="name" class="input is-primary" type="text" placeholder="Problem Name" required>
+          </div>
+        </div>
+        <div class="field">
+             <div class="control">
+                <textarea id="desc" class="textarea" placeholder="problem description" rows="10" required></textarea>
+            </div>
+        </div>
+
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+            <label class="label">TestCases</label>
+          </div>
+          <div class="field-body">
+            <div id="testcase-input" class="field">
+                <textarea class="textarea" placeholder="input" rows="3" required></textarea>
+            </div>
+            <div id="testcase-output" class="field">
+                <textarea class="textarea" placeholder="output" rows="3" required></textarea>
+            </div>
+          </div>
+
+        </div>
+        <div class="column is-6 is-offset-6">
+            <a id="addtestcase" class="button is-info"> Add </a>
+            <input type="submit" class="button is-info" name="" value="Save"/>
+        </div>
+
+    </form>
+    </div>
+</section>
+<script type="text/javascript">
+
+$('#addtestcase').on('click',function(){
+    $('#testcase-input').append('<textarea class="textarea" placeholder="output" rows="3" required></textarea>');
+    $('#testcase-output').append('<textarea class="textarea" placeholder="output" rows="3" required></textarea>');
+});
+
+$('form').submit(function(ev){
+
+    // console.log($('#name').val().trim());
+    // console.log($('#desc').val().trim());
+    
+    var data={
+        'name':'',
+        'desc':'',
+        'testCases':[]
+
+        }
+    var input=[];
+    var output=[];
+    var testca=[];
+    data['name']=$('#name').val().trim();
+    data['desc']=btoa($('#desc').val().trim());
+    
+    $('#testcase-input').children('textarea').each(function(){
+        input.push(btoa($(this).val()));
+    });
+    $('#testcase-output').children('textarea').each(function(){
+        output.push(btoa($(this).val()));
+    });
+
+    for(var i=0;i<input.length;i++){
+        testca.push({'input':input[i],'output':output[i]});
+    }
+    data['testCases']=testca;
+    var finalData=[];
+    finalData.push(data);
+    console.log(finalData);
+    console.log(JSON.stringify(finalData));
+
+    $.ajax({
+              method:'POST',
+              url:'api/addProblem',
+              dataType: "json",
+              contentType: "application/json",
+              data:JSON.stringify(finalData),
+              success: function(response){
+                console.log(response);
+                if (response=="done"){
+                    location.pathname='/admin';
+                }
+              },
+              error: function(response){
+                console.log(response);
+              },
+          });
+
+    return false;
+});
+
+
+
+</script>
+{% endblock %}

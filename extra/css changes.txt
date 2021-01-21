@@ -1,0 +1,23 @@
+font 
+Incompetent Landlord
+
+
+for placeholder for input tag
+
+.input::-webkit-input-placeholder,.select select::-webkit-input-placeholder,.textarea::-webkit-input-placeholder {
+    color: #8c9b9d
+}
+
+
+for inout tag
+	.input, .textarea
+    	background-color: #1f2424;
+    	color: white;
+
+for media/fields object input tags background auto black
+
+<div class="field">
+        <p class="control">
+          <textarea class="textarea" placeholder="Add a comment..."></textarea>
+        </p>
+      </div>

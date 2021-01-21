@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title></title>
+		<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+    <script defer src="/static/js/all.js" ></script>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/js.cookie.min.js"></script>
+		<script type="text/javascript" src="/static/js/sha256.min.js"></script>
+    <link rel="stylesheet" href="/static/css/bulmaswatch.min.css">
+	 
+   <script type="text/javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+
+        // Get all "navbar-burger" elements
+        var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+
+          // Add a click event on each of them
+          $navbarBurgers.forEach(function ($el) {
+            $el.addEventListener('click', function () {
+
+              // Get the target from the "data-target" attribute
+              var target = $el.dataset.target;
+              var $target = document.getElementById(target);
+
+              // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+              $el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+
+            });
+          });
+        }
+
+      });
+    </script>
+
+
+
+    <style type="text/css">
+      section {
+        background: linear-gradient(46deg, #101010, #323232);
+      background-size: 400% 400%;
+
+      -webkit-animation: AnimationName 24s ease infinite;
+      -moz-animation: AnimationName 24s ease infinite;
+      animation: AnimationName 24s ease infinite;
+      }
+      @-webkit-keyframes AnimationName {
+          0%{background-position:0% 53%}
+          50%{background-position:100% 48%}
+          100%{background-position:0% 53%}
+      }
+      @-moz-keyframes AnimationName {
+          0%{background-position:0% 53%}
+          50%{background-position:100% 48%}
+          100%{background-position:0% 53%}
+      }
+      @keyframes AnimationName { 
+          0%{background-position:0% 53%}
+          50%{background-position:100% 48%}
+          100%{background-position:0% 53%}
+      }
+
+    </style>
+
+
+  </head>
+  
+
+
+  <body>
+    
+
+  <section class="hero is-dark is-fullheight">
+    <!-- Hero head: will stick at the top -->
+    <div class="hero-head">
+      <nav class="navbar" role="navigation" aria-label="main navigation">        
+          <div class="navbar-brand">
+            <a href="/" class="navbar-item">
+              <img src="/static/img/logo.png" alt="Logo">
+            </a>
+            <span class="navbar-burger burger" data-target="navMenu">
+              <span></span>
+              <span></span>
+              <span></span>
+            </span>
+          </div>
+          <div class="navbar-menu" id="navMenu">
+            <div class="navbar-end">
+              <a class="navbar-item" href="{{url_for('register')}}">
+                Register
+              </a>
+              <span class="navbar-item">
+                <a class="button is-primary is-inverted is-outlined" href="{{url_for('login')}}">
+                  <span>Login</span>
+                </a>
+              </span>
+            </div>
+          </div>
+      </nav>
+    </div>
+
+    {% block herobody %}{% endblock %}
+  </section>
+    </body>
+</html>

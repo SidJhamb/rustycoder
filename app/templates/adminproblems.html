@@ -1,0 +1,21 @@
+{% extends "adminnav.html" %} {% block herobody %}
+<section class="section">
+    <div class="container is-fluid">
+    	<div class="content">
+    		<h2 class='title is-2'>Problems</h1>
+    	</div>
+    	
+    	{% if errorMsg%}
+    		<h3 class="title is-3">{{errorMsg}}</h3>
+    	{% else %}
+    		<div class="box content">
+        	{% for problem in problems %}
+            <article  class="post">
+                <h3><a href="dashboard/{{problem.id}}" class="has-text-info is-info">{{problem.name}}</a></h3>
+            </article>
+            {% endfor %}
+        	</div>
+    	{% endif %}
+    </div>
+</section>
+{% endblock %}

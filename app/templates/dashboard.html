@@ -1,0 +1,429 @@
+{% extends "litenav.html" %} {% block herobody %}
+<br>
+<div class="tabs is-centered is-medium is-toggle" id="tab_header">
+    <ul>
+        <li class="item is-active is-success" data-option="1">
+            <a style="background-color: #e74c3c;
+                    border-color: #e74c3c;">
+                    <span class="icon is-small"><i class="fas fa-file"></i></span>
+                    <span>Problem</span>
+                </a>
+        </li>
+        <li class="item" data-option="2">
+            <a><span class="icon is-small"><i class="fas fa-code"></i></span>
+                <span>Code</span></a>
+        </li>
+        <li class="item" data-option="3">
+            <a id="history"><span class="icon is-small"><i class="fas fa-history"></i></span>
+                <span>Submissions</span></a>
+        </li>
+    </ul>
+</div>
+<div class="" id="tab_container">
+    <div class="container is-fluid">
+        <div class="content container_item is-active is-medium" data-item="1">
+            <h1>{{problem.name}}</h1>
+            <hr>
+            <p style="white-space:pre-wrap;" id="probdesc"></p>
+        </div>
+    </div>
+    <div class="container_item" data-item="2">
+        <section class="section">
+            <div class="tile is-ancestor">
+                <div class="tile is-vertical is-6">
+                    <div class="tile is-parent is-vertical">
+                        <!-- <article class="tile is-child notification is-info">
+                                <p class="title">Middle tile</p>
+                                <p class="subtitle">With an image</p>
+                            </article> -->
+                        <div id="lang-dropdown" class="dropdown" onload="setDefaultLang()">
+                            <div class="dropdown-trigger">
+                                <button class="button" aria-haspopup="true" aria-controls="dropdown-menu">
+                                    <span id="current_lang">Language</span>
+                                    <span class="icon is-small">
+                                        <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div class="dropdown-content">
+                                    <a name="c_cpp" class="dropdown-item is-active" onclick="setLanguage(this)">Cpp</a>
+                                    <a name="python" class="dropdown-item" onclick="setLanguage(this)">Python</a>
+                                    <a name="c_cpp" class="dropdown-item" onclick="setLanguage(this)">C</a>
+                                    <a name="java" class="dropdown-item" onclick="setLanguage(this)">Java</a>
+                                    <a name="ruby" class="dropdown-item" onclick="setLanguage(this)">Ruby</a>
+                                    <a name="perl" class="dropdown-item" onclick="setLanguage(this)">Perl</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="tile is-child" id="editor"></div>
+                    </div>
+                    <div class="box has-text-centered" style="background-color: #1f2424 ">
+                        <button id="run" class="button is-info is-outlined">Run</button>
+                        <span style="margin-left:100px"></span>
+                        <button id="submit" class="button is-success is-outlined">Submit</button>
+                    </div>
+                </div>
+                <div class="tile is-parent is-vertical">
+                    <article class="tile is-child message is-medium is-light-grey">
+                        <div id="stdin-header" class="message-header"> Stdin
+                            <!-- <button class="delete"> </button> -->
+                        </div>
+                        <div id="stdin" class="message-body" style="display: none;">
+                            <div class="field">
+                                <!-- <label class="label">Message</label> -->
+                                <p class="control">
+                                    <textarea id="stdinInput" class="textarea" placeholder="Textarea"></textarea>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                    <article class="tile is-child notification" style="background-color: #1f2424">
+                        <div id="testcases" class="content" style="height: 400px">
+                            <p class="title has-text-white-ter">Test Cases</p>
+                            <hr>
+                            <progress id="progressbar" class="progress is-success" max="100" value="0">  </progress>
+                            
+                        </div>
+                    </article>
+                    
+                    <div class="tile is-child is-medium message">
+                        <div class=" message-header"> Output
+                        </div>
+                        <div id="stdout" class="message-body" style=""> </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container_item" data-item="3">
+        <div class="container is-fluid">
+            <section class="section">
+                <div class="columns is-centered">
+                    <table id='historytable' class="table is-striped is-hoverable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <abbr title="Name">Name</abbr>
+                                </th>
+                                <th>
+                                    <abbr title="Status">Status</abbr>
+                                </th>
+                                <th>
+                                    <abbr title="Test Cases">Test Cases</abbr>
+                                </th>
+                                <th>
+                                    <abbr title="Time">Time</abbr>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>1</th>
+                                <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
+                                </td>
+                                <td>38</td>
+                                <td>23</td>
+                                <td>12</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            
+        </div>
+    </div>
+</div>
+<script src="{{url_for('static',filename='ace-builds/src/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+<script>
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
+var probJson={{probDesc|safe}};
+console.log(probJson);
+
+var testCaseList={}
+$.each(probJson['testCases'],function(k,v){
+    console.log(k);
+    console.log(v);
+    testCaseList['testcase'+k]=[v['input'],v['output']];
+});
+console.log(testCaseList);
+
+if(probJson['testCases'].length>0){
+    for(i=0;i<probJson['testCases'].length;i++){
+        $('#testcases').append('<button id="'+'testcase'+String(i)+'" class="button is-outlined is-info is-disabled">Test Case '+String(i+1)+'</button>');
+    }
+}
+
+$(window).on('load', function() {
+
+    $('#probdesc').text(atob("{{problem.content}}"));
+
+    // $(document).ready(function() {
+    $('#tab_header ul li.item').on('click', function() {
+        var number = $(this).data('option');
+        $('#tab_header ul li.item').removeClass('is-active');
+        $('#tab_header ul li.item').children('a').attr('style', '');
+        $(this).addClass('is-active');
+        $(this).children('a').attr('style', 'background-color: #e74c3c;border-color: #e74c3c;');
+        $('#tab_container .container_item').removeClass('is-active');
+        $('div[data-item="' + number + '"]').addClass('is-active');
+    });
+    setDefaultLang()
+    i = 0;
+    $('#stdin-header').on('click', function(e) {
+        // alert(1);
+        arr = ['display: None;', 'display: block;'];
+        $('#stdin').attr('style', arr[i])
+        i = (i + 1) % 2
+    });
+
+    // });
+});
+
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/c_cpp");
+document.getElementById('editor').style.fontSize = '17px';
+editor.setHighlightActiveLine(false);
+editor.setOption('showPrintMargin', false);
+
+function setLanguage(tag) {
+    current_lang = tag.innerHTML.trim()
+    console.log(current_lang)
+    $('#lang-dropdown').find('.dropdown-item').each(function() {
+        $(this).removeClass('is-active')
+        // console.log(this.innerText);
+        if (this.innerText == current_lang) {
+            $(this).addClass('is-active');
+            $('#current_lang').text(current_lang);
+            mode=$(this).attr('name');
+            // console.log(mode);
+            editor.session.setMode("ace/mode/"+mode);
+        }
+    });
+}
+
+function setDefaultLang() {
+    $('#lang-dropdown').find('.dropdown-item').each(function() {
+        if ($(this).hasClass('is-active')) {
+            console.log($(this).text());
+            console.log('set active');
+            $('#current_lang').text($(this).text().trim());
+        } else {
+            // console.log('error');
+        }
+    });
+}
+
+$('#lang-dropdown').removeClass('is-active');
+var dropdown = document.querySelector('.dropdown');
+dropdown.addEventListener('click', function(event) {
+    event.stopPropagation();
+    dropdown.classList.toggle('is-active');
+    // console.log(dropdown.classList)
+});
+
+
+
+brokerUrl="{{brokerURL}}";
+
+var submitJobId='';
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+$('#run').click(function(ev){
+
+    $('#run').addClass('is-loading');
+    $('#submit').addClass('is-disabled');
+    $('#stdout').html('');
+
+    var data={};
+    data['code']=btoa(editor.getSession());
+    data['lang']=$('#current_lang').text().trim();
+    data['stdin']=btoa($("#stdinInput").val().trim());
+    console.log(data);
+
+    jobId='';
+
+    globalRunStatusCount=0;
+    var fetchResult = function(taskId){
+        fetch(brokerUrl+'runStatus/'+taskId,{
+            method:'GET',
+            mode:'cors',
+            headers: new Headers({
+            'Content-Type': 'application/json',
+            'token': getCookie('token')
+            })
+        }).then(res => res.json())
+    .catch(function(error){
+        console.error('Error:', error);
+        $('#run').removeClass('is-loading');
+    }
+    ).then(function(response){
+        console.log('fetchResult-'+globalRunStatusCount);
+        console.log(response);
+        globalRunStatusCount=globalRunStatusCount+1;
+        if(globalRunStatusCount==10){
+            $('#run').removeClass('is-loading');
+            return;
+        }
+        if(response.status=='SUCCESS'){
+            $('#stdout').html(response.output);
+            $('#run').removeClass('is-loading');
+            return
+        }else{
+            setTimeout(function(){fetchResult(taskId)}, 3000);
+        }
+    });
+    }
+
+    fetch(brokerUrl+'run', {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(data), // data can be `string` or {object}!
+    mode:'cors',
+    headers: new Headers({
+    'Content-Type': 'application/json',
+    'token': getCookie('token')
+    })
+    }).then(res => res.json())
+    .catch(function(error){
+        console.error('Error:', error);
+        $('#run').removeClass('is-loading');
+        return;
+    }).then(function(response){
+        console.log('Success:', response);
+        jobId=response.taskId;
+        return response.taskId;
+    }).then(function(taskId){
+        fetchResult(taskId);
+    });
+
+});
+
+$('#submit').click(function(ev){
+    $('#submit').addClass('is-loading');
+    $('#stdout').html('');
+
+    var data={};
+    data['code']=btoa(editor.getSession());
+    data['lang']=$('#current_lang').text().trim();
+    data['problemId']=probJson['_id']['$oid'];
+    data['testcases']=testCaseList;
+    console.log(data);
+
+
+    globalSubmitStatusCount=0;
+    var fetchResult = function(taskId){
+        fetch(brokerUrl+'submitStatus/'+taskId,{
+            method:'GET',
+            mode:'cors',
+            headers: new Headers({
+            'Content-Type': 'application/json',
+            'token': getCookie('token')
+            })
+        }).then(res => res.json())
+    .catch(function(error){
+        console.error('Error:', error);
+        $('#submit').removeClass('is-loading');
+    }).then(function(response){
+        console.log('fetchResult-'+globalSubmitStatusCount);
+        console.log(response);
+        globalSubmitStatusCount=globalSubmitStatusCount+1;
+        if(globalSubmitStatusCount==10){
+            $('#submit').removeClass('is-loading');
+            return;
+        }
+        if(response.status=='SUCCESS'){
+            console.log(JSON.stringify(response));
+            $('#submit').removeClass('is-loading');
+            for(var x=0;x<response['result'].length;x++){
+                $('#testcase'+x).removeClass('is-success');
+                $('#testcase'+x).removeClass('is-danger');
+                $('#testcase'+x).removeClass('is-info');
+                if(response['result'][x]=='Passed'){
+                    $('#testcase'+x).addClass('is-success');
+                }else{
+                    $('#testcase'+x).addClass('is-danger');
+                }
+            }
+            progArr=response['testCaseStatus'].split('/');
+            console.log(progArr);
+            final=(parseInt(progArr[0])*100)/parseInt(progArr[1]);
+            $('#progressbar').attr('value',final);
+            return
+        }else{
+            setTimeout(function(){fetchResult(taskId)}, 3000);
+        }
+    });
+    }
+
+
+    fetch(brokerUrl+'submit', {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(data), // data can be `string` or {object}!
+        mode:'cors',
+        headers: new Headers({
+        'Content-Type': 'application/json',
+        'token': getCookie('token')
+        })
+    }).then(res => res.json())
+    .catch(function(error){
+        console.error('Error:', error);
+        $('#submit').removeClass('is-loading');
+    }).then(function(response){
+        console.log('Success:', response);
+        fetchResult(response.taskId);
+    });
+
+});
+
+$('#history').click(function(ev){
+      $("#historytable tbody tr").remove();
+      
+      data={
+        'problemId':probJson['_id']['$oid']
+      }
+      $.ajax({
+              method:'POST',
+              url:'/api/queryUserStatus',
+              dataType: "json",
+              contentType: "application/json",
+              data:JSON.stringify(data),
+              success: function(response){
+                tempvar=response;
+                // console.log(JSON.stringify(response));
+                console.log(response);
+                $.each(response,function(key,val){
+                    // console.log(val['problemId']);
+                    times= new Date(val['timestamp']);
+                    $('#historytable').children('tbody').append('<tr><td>'+val['username']+'</td><td>'+val['overallStatus']+'</td><td>'+val['testCaseStatus']+'</td><td>'+times.toLocaleString("en-US",{ timeZone: 'Asia/Kolkata' })+'</td></tr>');
+                })
+
+              },
+              error: function(response){
+                // console.log(response);
+              },
+          });
+});
+
+</script>
+{% endblock %}
